@@ -1,83 +1,107 @@
-@import "tailwindcss";
-
-@theme {
-  /* ---- palette ------------------------------------------------------ */
-  --color-paper: #fdfbf6;
-  --color-paper-2: #f7f2e8;
-  --color-ink: #3b2a21;
-  --color-ink-2: #7b6555;
-  --color-ink-3: #a89684;
-  --color-line: #e9e1d4;
-  --color-blush: #f4cac5;
-  --color-blush-2: #e09b95;
-  --color-sage: #c8d9be;
-  --color-butter: #f7e6bd;
-
-  /* ---- type --------------------------------------------------------- */
-  --font-script: var(--font-sacramento), cursive;
-  --font-serif: var(--font-newsreader), Georgia, serif;
-  --font-sans: var(--font-karla), ui-sans-serif, system-ui, sans-serif;
-
-  /* ---- motion ------------------------------------------------------- */
-  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
+  :root {
+    --plum: #3e2230;
+    --blush: #FEDCE0;
+    --rose: #DF6FA1;
+    --stroke-w: 2px;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --stroke-w: 3px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    :root {
+      --stroke-w: 4px;
+    }
+  }
+
   html {
     scroll-behavior: smooth;
+    /* Anchor offset so section titles never hide under the nav */
+    scroll-padding-top: 5.5rem;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    @apply bg-paper text-plum font-sans antialiased;
+    overflow-x: hidden;
   }
 
   ::selection {
-    background-color: var(--color-blush);
-    color: var(--color-ink);
+    background: var(--plum);
+    color: var(--blush);
+  }
+
+  /* Slim, on-brand scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--blush);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--rose);
+    border-radius: 999px;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-blush-2);
+    outline: 2px solid var(--plum);
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: 2px;
   }
 }
 
-@layer utilities {
-  /* Scroll reveal — the class is removed by IntersectionObserver. */
-  .reveal {
-    opacity: 0;
-    transform: translateY(18px);
+@layer components {
+  /* The hero signature: hairline-outlined display type.
+     Set --outline-color on any parent to restyle it for a light section. */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: var(--stroke-w) var(--outline-color, var(--plum));
+    paint-order: stroke fill;
   }
 
-  .reveal-in {
-    opacity: 1;
-    transform: none;
-    transition:
-      opacity 0.7s var(--ease-soft),
-      transform 0.7s var(--ease-soft);
+  /* Hides the native scrollbar on the mobile project rail */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Vertical magazine rail label */
+  .vertical-rule {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
   }
 }
 
+/* Hide the OS cursor only where the custom one is actually active */
+@media (hover: hover) and (pointer: fine) {
+  body[data-custom-cursor='on'],
+  body[data-custom-cursor='on'] * {
+    cursor: none;
+  }
+}
+
+/* Quality floor: honour the user's motion preference everywhere */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
+    transition-duration: 0.001ms !important;
   }
 }

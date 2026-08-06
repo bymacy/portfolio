@@ -1,65 +1,62 @@
-import type { Metadata } from "next";
-import { Sacramento, Newsreader, Karla } from "next/font/google";
-import SiteHeader from "@/components/SiteHeader";
-import SiteFooter from "@/components/SiteFooter";
-import "./globals.css";
+import type { Metadata, Viewport } from 'next';
+import { Anton, Plus_Jakarta_Sans } from 'next/font/google';
 
-const sacramento = Sacramento({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-sacramento",
-  display: "swap",
+import CustomCursor from '@/components/CustomCursor';
+import Navbar from '@/components/Navbar';
+import { site } from '@/lib/site';
+
+import './globals.css';
+
+/* Display: Anton — tall, condensed, unapologetic. Used only for headlines. */
+const display = Anton({
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap',
+  variable: '--font-display',
 });
 
-const newsreader = Newsreader({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  variable: "--font-newsreader",
-  display: "swap",
-});
-
-const karla = Karla({
-  subsets: ["latin"],
-  variable: "--font-karla",
-  display: "swap",
+/* Body: Plus Jakarta Sans — geometric, quiet, wide range of weights. */
+const body = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-body',
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://bymacy.com"),
+  metadataBase: new URL(site.url),
   title: {
-    default: "bymacy — ui/ux designer & frontend developer",
-    template: "%s — bymacy",
+    default: `${site.wordmark.solid} ${site.wordmark.typed} — ${site.tagline}`,
+    template: `%s — ${site.wordmark.solid} ${site.wordmark.typed}`,
   },
-  description:
-    "Portfolio of Macy, a ui/ux designer and frontend developer making warm, careful interfaces.",
+  description: site.description,
   openGraph: {
-    title: "bymacy — ui/ux designer & frontend developer",
-    description:
-      "Portfolio of Macy, a ui/ux designer and frontend developer making warm, careful interfaces.",
-    type: "website",
+    title: `${site.wordmark.solid} ${site.wordmark.typed}`,
+    description: site.description,
+    url: site.url,
+    siteName: `${site.wordmark.solid} ${site.wordmark.typed}`,
+    type: 'website',
   },
+  twitter: { card: 'summary_large_image' },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = {
+  themeColor: '#FEDCE0',
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${sacramento.variable} ${newsreader.variable} ${karla.variable}`}
-    >
-      <body className="min-h-dvh antialiased">
+    <html lang="en" className={`${display.variable} ${body.variable}`}>
+      <body>
+        {/* Keyboard users get out of the nav in one press */}
         <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-paper"
+          href="#projects"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-plum focus:px-5 focus:py-2 focus:text-sm focus:text-blush"
         >
-          Skip to content
+          Skip to projects
         </a>
-        <SiteHeader />
-        <main id="main">{children}</main>
-        <SiteFooter />
+        <CustomCursor />
+        <Navbar />
+        <main>{children}</main>
       </body>
     </html>
   );

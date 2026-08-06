@@ -1,70 +1,69 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
+import fs from 'node:fs';
+import path from 'node:path';
+import matter from 'gray-matter';
 
-const CONTENT_DIR = path.join(process.cwd(), "content/projects");
+import type { Project, ProjectFrontmatter, ProjectSummary } from './types';
 
-export const CATEGORIES = ["passion project", "pubmat", "school work"] as const;
-export type Category = (typeof CATEGORIES)[number];
+const PROJECTS_DIR = path.join(process.cwd(), 'content', 'projects');
 
-/** Placeholder tints used when a project has no cover image yet. */
-export const TINTS = ["night", "grape", "cream", "forest", "magenta"] as const;
-export type Tint = (typeof TINTS)[number];
-
-export type ProjectMeta = {
-  slug: string;
-  title: string;
-  /** The italic line under the card title, e.g. "Product Design". */
-  discipline: string;
-  category: Category;
-  summary: string;
-  tint: Tint;
-  year?: string;
-  cover?: string;
-  role?: string;
-  tools?: string[];
-  link?: string;
-  order: number;
-};
-
-export type Project = ProjectMeta & { body: string };
-
-function parseFile(filename: string): Project {
-  const raw = fs.readFileSync(path.join(CONTENT_DIR, filename), "utf8");
+function readProjectFile(fileName: string): Project {
+  const slug = fileName.replace(/\.mdx$/, '');
+  const raw = fs.readFileSync(path.join(PROJECTS_DIR, fileName), 'utf8');
   const { data, content } = matter(raw);
+  const fm = data as Partial<ProjectFrontmatter>;
+
+  // Fail loudly in development rather than shipping a half-rendered card.
+  if (!fm.title || !fm.thumbnail || !fm.category) {
+    throw new Error(
+      `content/projects/${fileName} is missing required frontmatter (title, category, thumbnail).`
+    );
+  }
 
   return {
-    slug: filename.replace(/\.mdx?$/, ""),
-    title: String(data.title ?? "Untitled"),
-    discipline: String(data.discipline ?? ""),
-    category: (data.category ?? "passion project") as Category,
-    summary: String(data.summary ?? ""),
-    tint: (data.tint ?? "cream") as Tint,
-    year: data.year ? String(data.year) : undefined,
-    cover: data.cover ? String(data.cover) : undefined,
-    role: data.role ? String(data.role) : undefined,
-    tools: Array.isArray(data.tools) ? data.tools.map(String) : undefined,
-    link: data.link ? String(data.link) : undefined,
-    order: Number(data.order ?? 999),
-    body: content,
+    slug,
+    title: fm.title,
+    description: fm.description ?? '',
+    category: fm.category,
+    thumbnail: fm.thumbnail,
+    stack: fm.stack ?? [],
+    github: fm.github,
+    live: fm.live,
+    date: fm.date ?? '1970-01-01',
+    featured: fm.featured ?? false,
+    role: fm.role,
+    year: fm.year,
+    content,
   };
 }
 
+/** Every project, newest first. Server-only — reads the filesystem. */
 export function getAllProjects(): Project[] {
-  if (!fs.existsSync(CONTENT_DIR)) return [];
+  if (!fs.existsSync(PROJECTS_DIR)) return [];
 
   return fs
-    .readdirSync(CONTENT_DIR)
-    .filter((f) => f.endsWith(".mdx") || f.endsWith(".md"))
-    .map(parseFile)
-    .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
+    .readdirSync(PROJECTS_DIR)
+    .filter((file) => file.endsWith('.mdx'))
+    .map(readProjectFile)
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-export function getProject(slug: string): Project | undefined {
-  return getAllProjects().find((p) => p.slug === slug);
+/** Card-sized payload — strips the MDX body so it can cross to a client component. */
+export function getProjectSummaries(): ProjectSummary[] {
+  return getAllProjects().map(({ content: _content, ...summary }) => summary);
 }
 
-/** Only show filter pills that actually have projects behind them. */
-export function getUsedCategories(projects: Project[]): Category[] {
-  return CATEGORIES.filter((c) => projects.some((p) => p.category === c));
+export function getProjectBySlug(slug: string): Project | undefined {
+  return getAllProjects().find((project) => project.slug === slug);
+}
+
+export function getProjectSlugs(): string[] {
+  return getAllProjects().map((project) => project.slug);
+}
+
+/** Used by the project page to offer "next project" at the end. */
+export function getAdjacentProject(slug: string): ProjectSummary | undefined {
+  const all = getProjectSummaries();
+  const index = all.findIndex((project) => project.slug === slug);
+  if (index === -1 || all.length < 2) return undefined;
+  return all[(index + 1) % all.length];
 }

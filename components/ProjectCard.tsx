@@ -1,58 +1,85 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
-import type { ProjectMeta, Tint } from "@/lib/projects";
+import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
-/** Placeholder backgrounds, used until a real cover lands in /public/work. */
-const TINT_STYLES: Record<Tint, string> = {
-  night: "bg-[linear-gradient(160deg,#1d2b45,#101a2c)] text-butter",
-  grape: "bg-[linear-gradient(160deg,#b28ae0,#7d5bb8)] text-white",
-  cream: "bg-[linear-gradient(160deg,#fdf6e6,#f4e6cd)] text-ink",
-  forest: "bg-[linear-gradient(160deg,#8fc0e8,#5f9b6d)] text-white",
-  magenta: "bg-[linear-gradient(160deg,#e77fc0,#a8459b)] text-white",
-};
+import { springSoft } from '@/lib/motion';
+import type { ProjectSummary } from '@/lib/types';
 
-export default function ProjectCard({ project }: { project: ProjectMeta }) {
-  const [coverFailed, setCoverFailed] = useState(false);
-  const showCover = Boolean(project.cover) && !coverFailed;
+interface ProjectCardProps {
+  project: ProjectSummary;
+  /** 1-based position, printed as an editorial folio number. */
+  index: number;
+  /** Card edge length. The carousel passes a rem value; squares always. */
+  size?: string;
+  /** Duplicated loop copies stay clickable but leave the tab order alone. */
+  focusable?: boolean;
+}
 
+/**
+ * A perfect square, always. The image is the only thing that moves on hover —
+ * the frame lifts, the photo zooms inside it, the label slides up.
+ *
+ * The wash over the thumbnail is plum rather than black: on a pink page a
+ * neutral grey overlay reads as dirt.
+ */
+export default function ProjectCard({
+  project,
+  index,
+  size = '22rem',
+  focusable = true,
+}: ProjectCardProps) {
   return (
-    <article className="group">
-      <Link href={`/work/${project.slug}`} className="block">
-        <div
-          className={`relative aspect-[4/3] overflow-hidden rounded-2xl ring-1 ring-line transition-all duration-500 ease-soft group-hover:-translate-y-1.5 group-hover:shadow-[0_18px_40px_-24px_rgba(59,42,33,0.45)] ${
-            showCover ? "bg-paper-2" : TINT_STYLES[project.tint]
-          }`}
-        >
-          {showCover ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={project.cover}
-              alt={`${project.title} — ${project.discipline}`}
-              className="h-full w-full object-cover transition-transform duration-700 ease-soft group-hover:scale-[1.04]"
-              onError={() => setCoverFailed(true)}
-              loading="lazy"
-            />
-          ) : (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-2 px-6 text-center">
-              <span className="font-serif text-2xl leading-tight">
-                {project.title}
-              </span>
-              <span className="text-[0.7rem] uppercase tracking-[0.2em] opacity-70">
-                cover coming soon
-              </span>
-            </div>
-          )}
-        </div>
+    <motion.article
+      whileHover={{ y: -14 }}
+      whileFocus={{ y: -14 }}
+      transition={springSoft}
+      style={{ width: size }}
+      className="group relative aspect-square shrink-0"
+    >
+      <Link
+        href={`/projects/${project.slug}`}
+        className="relative block h-full w-full overflow-hidden rounded-[1.75rem] bg-petal shadow-[0_30px_70px_-32px_rgba(62,34,48,0.45)]"
+        aria-label={`${project.title} — ${project.category}`}
+        tabIndex={focusable ? undefined : -1}
+      >
+        {/* REPLACE: swap the thumbnail path in the project's .mdx frontmatter. */}
+        <Image
+          src={project.thumbnail}
+          alt=""
+          fill
+          sizes="(max-width: 1024px) 72vw, 26vw"
+          loading="lazy"
+          className="object-cover transition-transform duration-[900ms] ease-editorial group-hover:scale-[1.08]"
+        />
 
-        <h3 className="mt-5 font-serif text-[1.35rem] font-light leading-snug text-ink">
-          {project.title}
-        </h3>
-        <p className="mt-1 font-serif text-[0.95rem] italic text-ink-2">
-          {project.discipline}
-        </p>
+        {/* Flat plum wash — deepens on hover so the label stays legible. */}
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-plum/15 transition-colors duration-700 ease-editorial group-hover:bg-plum/70"
+        />
+
+        {/* Folio number, always visible */}
+        <span className="absolute left-6 top-5 text-eyebrow uppercase text-blush/90">
+          {String(index).padStart(2, '0')}
+        </span>
+
+        <ArrowUpRight
+          aria-hidden
+          className="absolute right-5 top-5 h-5 w-5 -translate-y-1 text-blush opacity-0 transition-all duration-500 ease-editorial group-hover:translate-y-0 group-hover:opacity-100"
+          strokeWidth={1.5}
+        />
+
+        {/* Label: always shown on touch, revealed on hover for pointer devices */}
+        <div className="absolute inset-x-6 bottom-6 md:translate-y-3 md:opacity-0 md:transition-all md:duration-700 md:ease-editorial md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus-visible:translate-y-0 md:group-focus-visible:opacity-100">
+          <p className="text-eyebrow uppercase text-blush/75">{project.category}</p>
+          <h3 className="mt-2 font-display text-2xl uppercase leading-none text-blush sm:text-3xl">
+            {project.title}
+          </h3>
+        </div>
       </Link>
-    </article>
+    </motion.article>
   );
 }

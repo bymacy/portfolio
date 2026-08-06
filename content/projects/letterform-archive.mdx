@@ -1,0 +1,36 @@
+---
+title: "Letterform"
+description: "An interactive type specimen where the letters respond to how fast you scroll."
+category: "Experiment"
+thumbnail: "/images/projects/letterform-archive.png"
+stack: ['React', 'Framer Motion', 'Canvas', 'GSAP']
+github: "https://github.com/your-handle/letterform-archive"
+live: "https://example.com/letterform-archive"
+date: "2025-04-05"
+year: "2025"
+role: "Creative development"
+featured: false
+---
+
+A weekend experiment that turned into a study of variable fonts. Scroll velocity drives weight and width, so the page feels like it has inertia.
+
+## What I did
+
+- Mapped scroll velocity to a variable font's weight and width axes
+- Added a rest state so the type settles rather than snapping back
+- Tested nine typefaces and kept the three that survived fast scrolling
+- Wrote up the performance notes — the naive version dropped to 24fps
+
+## What I learned
+
+Motion tied to input velocity needs damping or it reads as broken. The fix was a spring on the axis values, not a faster render loop.
+
+<Figure
+  src="/images/projects/letterform-archive.png"
+  alt="Letterform interface"
+  caption="REPLACE — a screenshot from Letterform"
+/>
+
+{/* REPLACE: everything above is placeholder writing. Swap in the real story,
+     add <Figure src="/images/projects/letterform-archive-detail.png" caption="…" /> blocks
+     wherever a screenshot helps, and update the frontmatter links. */}

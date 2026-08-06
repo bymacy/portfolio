@@ -1,21 +1,19 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="mx-auto flex max-w-3xl flex-col items-center px-6 py-32 text-center sm:px-10">
-      <p className="font-script text-7xl text-blush-2">oops</p>
-      <h1 className="mt-4 font-serif text-3xl font-light">
-        This page isn&rsquo;t on the shelf.
-      </h1>
-      <p className="mt-3 text-ink-2">
-        The link may be old, or the project moved.
+    <section className="flex min-h-[100svh] flex-col items-center justify-center px-gutter text-center">
+      <p className="text-eyebrow uppercase text-plum-faint">Error 404</p>
+      <h1 className="mt-6 font-display text-display-lg uppercase text-outline">Not here</h1>
+      <p className="mt-6 max-w-sm text-balance text-base leading-relaxed text-plum-muted">
+        That page has either moved or never existed. The work is still where you left it.
       </p>
       <Link
-        href="/#work"
-        className="mt-9 rounded-full border border-blush-2 bg-blush px-7 py-3 text-[0.95rem] text-ink transition-transform duration-300 ease-soft hover:-translate-y-0.5"
+        href="/#projects"
+        className="mt-10 rounded-full bg-plum px-7 py-3 text-sm font-medium text-blush transition-transform duration-500 ease-editorial hover:-translate-y-1"
       >
-        Back to the portfolio
+        Back to projects
       </Link>
-    </div>
+    </section>
   );
 }

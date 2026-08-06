@@ -39,7 +39,7 @@ export default function Footer() {
       <div className="mx-auto flex max-w-[110rem] flex-col items-center px-gutter py-section text-center">
         <Reveal delay={0.1} className="mt-6">
           <p className="font-display text-[clamp(1.5rem,3vw,2.25rem)] text-rose">
-            ♡ Don't be a stranger.
+            ♡ Dont be a stranger.
           </p>
         </Reveal>
 

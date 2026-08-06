@@ -2,15 +2,15 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import ProjectCard from "./ProjectCard";
-import type { Category, ProjectMeta } from "@/lib/projects";
+import type { Category, ProjectSummary } from "@/lib/types";
 
-type Filter = Category | "all";
+type Filter = ProjectSummary["category"] | "all";
 
 export default function WorkGrid({
   projects,
   categories,
 }: {
-  projects: ProjectMeta[];
+  projects: ProjectSummary[];
   categories: Category[];
 }) {
   const [filter, setFilter] = useState<Filter>("all");
@@ -85,7 +85,7 @@ export default function WorkGrid({
             className="reveal"
             style={{ transitionDelay: `${Math.min(i, 5) * 70}ms` }}
           >
-            <ProjectCard project={project} />
+            <ProjectCard project={project} index={i + 1} />
           </div>
         ))}
       </div>

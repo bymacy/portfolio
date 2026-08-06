@@ -1,8 +1,14 @@
+/** Allowed project categories */
+export type Category =
+  | "Web"
+  | "Mobile"
+  | "UI/UX";
+
 /** Frontmatter contract every file in content/projects/*.mdx must satisfy. */
 export interface ProjectFrontmatter {
   title: string;
   description: string;
-  category: string;
+  category: Category;
   thumbnail: string;
   stack: string[];
   github?: string;
@@ -20,7 +26,7 @@ export interface Project extends ProjectFrontmatter {
 }
 
 /** A project without its body — enough to render a card. */
-export type ProjectSummary = Omit<Project, 'content'>;
+export type ProjectSummary = Omit<Project, "content">;
 
 export interface NavItem {
   label: string;

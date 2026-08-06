@@ -38,7 +38,7 @@ export default function Footer() {
 
       <div className="mx-auto flex max-w-[110rem] flex-col items-center px-gutter py-section text-center">
         <Reveal delay={0.1} className="mt-6">
-          <p className="font-display text-[clamp(1.5rem,3vw,2.25rem)] text-rose">
+          <p className="font-display text-[clamp(1.5rem,3vw,2.25rem)] text-plum">
             ♡ Dont be a stranger.
           </p>
         </Reveal>
@@ -54,7 +54,7 @@ export default function Footer() {
               whileTap={{ scale: 0.96 }}
               transition={springSoft}
               data-cursor="link"
-              className="group flex h-16 w-16 items-center justify-center rounded-full bg-rose text-paper transition-shadow duration-500 ease-editorial hover:shadow-[0_0_0_1px_rgba(62,34,48,0.22),0_18px_45px_-12px_rgba(223,111,161,0.75)] sm:h-20 sm:w-20"
+              className="group flex h-16 w-16 items-center justify-center rounded-full bg-shell text-plum transition-shadow duration-500 ease-editorial hover:shadow-[0_0_0_1px_rgba(62,34,48,0.22),0_18px_45px_-12px_rgba(223,111,161,0.75)] sm:h-20 sm:w-20"
             >
               <span className="sr-only">{label}</span>
               <Icon

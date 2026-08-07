@@ -567,7 +567,7 @@ export default function TechStack() {
 
         {/* Cords + rail */}
         <svg
-          className="pointer-events-none absolute inset-0 z-10 h-full w-full overflow-visible text-plum"
+          className="pointer-events-none absolute inset-0 z-10 h-full w-full overflow-visible text-rose"
           aria-hidden
         >
           <line

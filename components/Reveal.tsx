@@ -12,7 +12,7 @@ type RevealProps = Omit<HTMLMotionProps<'div'>, 'children'> & {
   /** Travel distance in px. Negative values slide down instead of up. */
   distance?: number;
   duration?: number;
-  as?: 'div' | 'section' | 'li' | 'p' | 'span';
+  as?: "div" | "p" | "li" | "section" | "span" | "h1" | "h2" | "h3" | "h4";
 };
 
 /**

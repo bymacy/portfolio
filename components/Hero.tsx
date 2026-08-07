@@ -44,14 +44,21 @@ export default function Hero() {
         style={
           prefersReducedMotion ? undefined : { y: typeY, opacity: typeOpacity }
         }
-        className="order-2 mt-8 flex flex-col items-start gap-2 lg:absolute lg:inset-x-gutter lg:top-[37%] lg:z-10 lg:mt-0 lg:flex-row lg:items-baseline lg:justify-center lg:gap-[19rem]"
+        className="order-2 mt-8 flex flex-col items-start gap-2 lg:absolute lg:inset-x-gutter lg:top-1/3 lg:z-10 lg:mt-0 lg:flex-row lg:items-baseline lg:justify-center lg:gap-[18vw]"
       >
         {/* BY — solid, letters staggered in on load */}
         <motion.span
           variants={stagger(0.09, 0.1)}
           initial="hidden"
           animate="visible"
-          className="flex font-display lg:text-[20rem] uppercase leading-none text-plum"
+          className="
+          flex
+          font-display
+          text-[clamp(6rem,24vw,24rem)]
+          uppercase
+          leading-none
+          text-plum
+          "
         >
           <span className="sr-only">{site.wordmark.solid}</span>
           {Array.from(site.wordmark.solid).map((letter, index) => (
@@ -74,11 +81,15 @@ export default function Hero() {
           className="flex flex-col items-start lg:items-end"
         >
           <TypingName
-            word={site.wordmark.typed}
-            className="font-display text-8xl lg:text-[20rem] uppercase leading-none text-outline"
-          />
-
-          {/* Roles sit under the name like a magazine standfirst */}
+          word={site.wordmark.typed}
+          className="
+          font-display
+          text-[clamp(6rem,24vw,24rem)]
+          uppercase
+          leading-none
+          text-outline
+          "
+        />
           {/* Roles sit under the name like a magazine standfirst */}
           <motion.ul
             variants={stagger(0.1, 1.5)}

@@ -518,7 +518,7 @@ export default function TechStack() {
     rawCursor.current = { x: -9999, y: -9999 };
   }, []);
 
-  const stageHeight = isNarrow ? 380 : 460;
+  const stageHeight = isNarrow ? 420 : 500;
 
   return (
     <section

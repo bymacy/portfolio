@@ -40,19 +40,14 @@ export default function HeroImage({ src, alt }: HeroImageProps) {
       className="
       pointer-events-none
       absolute
-      left-[26%]
       bottom-0
       z-20
-      h-[60vh]
-      w-[22rem]
+
+      left-[15.1%]
       -translate-x-1/2
 
-      sm:h-[68vh]
-      sm:w-[26rem]
-
-      lg:left-[20%]
-      lg:h-[90vh]
-      lg:w-[36rem]
+      h-[clamp(34rem,88vh,68rem)]
+      w-[clamp(24rem,44vw,44rem)]
       "
     >
       {/* Flat accent disc — separates the portrait from the outlined letters.

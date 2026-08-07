@@ -50,17 +50,14 @@ export default function HeroImage({ src, alt }: HeroImageProps) {
       sm:h-[68vh]
       sm:w-[26rem]
 
-      lg:left-[22.5%]
+      lg:left-[20%]
       lg:h-[90vh]
       lg:w-[36rem]
       "
     >
       {/* Flat accent disc — separates the portrait from the outlined letters.
           Deliberately not a gradient: one colour, heavy blur. */}
-      <div
-        aria-hidden
-        className="absolute left-1/2 top-[46%] -z-10 h-[62%] w-[86%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-paper/80 blur-3xl"
-      />
+    
 
       {/* REPLACE: /public/images/portrait-hero.png with your own cut-out PNG
           (transparent background, roughly 1400px tall for a crisp 2x render). */}

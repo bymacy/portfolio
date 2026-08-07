@@ -19,6 +19,7 @@ export const site = {
   socials: {
     instagram: 'https://instagram.com/misikeyn', // REPLACE
     linkedin: 'https://linkedin.com/in/mabliq', // REPLACE
+
   },
   images: {
     // REPLACE both with your own cut-out PNGs (transparent background).
@@ -29,7 +30,8 @@ export const site = {
 
 export const navItems: NavItem[] = [
   { label: 'Home', href: '#home', sectionId: 'home' },
-  { label: 'Projects', href: '#projects', sectionId: 'projects' },
   { label: 'About', href: '#about', sectionId: 'about' },
+  { label: 'Projects', href: '#projects', sectionId: 'projects' },
   { label: 'Contact', href: '#contact', sectionId: 'contact' },
+  
 ];

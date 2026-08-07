@@ -33,7 +33,9 @@ const education: Entry[] = [
     period: "2021 — 2025",
     title: "BS Information Technology",
     org: "Your University",
-    notes: ["Coursework in interaction design, game development and web systems."],
+    notes: [
+      "Coursework in interaction design, game development and web systems.",
+    ],
   },
 ];
 
@@ -82,8 +84,18 @@ export default function ResumePage() {
           <h1 className="font-serif text-4xl font-light leading-tight sm:text-5xl">
             Resume
           </h1>
-          <p className="mt-3 font-serif text-lg italic text-ink-2">
-            ui/ux designer &amp; frontend developer
+          <p
+            className="
+    mt-5
+    text-center
+    text-sm
+    font-medium
+    uppercase
+    tracking-[0.35em]
+    text-plum-muted
+  "
+          >
+            UI/UX DESIGNER | FRONTEND DEVELOPER
           </p>
         </div>
 

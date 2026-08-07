@@ -2,6 +2,7 @@ import About from '@/components/About';
 import Footer from '@/components/Footer';
 import Hero from '@/components/Hero';
 import ProjectsSection from '@/components/ProjectsSection';
+import TechStack from '@/components/TechStack';
 import { getProjectSummaries } from '@/lib/projects';
 
 export default function HomePage() {
@@ -11,8 +12,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <ProjectsSection projects={projects} />
       <About />
+      <TechStack />
+      <ProjectsSection projects={projects} />
       <Footer />
     </>
   );

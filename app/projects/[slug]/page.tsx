@@ -134,8 +134,20 @@ export default function ProjectPage({ params }: PageProps) {
             </Reveal>
           )}
 
-          {/* MDX body — REPLACE the writing in content/projects/*.mdx */}
-          <Reveal delay={0.34} className="mt-16 max-w-3xl pb-24">
+          {/* MDX body — REPLACE the writing in content/projects/*.mdx
+              No max-w here on purpose: prose elements pin themselves to a
+              narrow centred column and Figure breaks out to the full
+              max-w-5xl frame (see components/mdx.tsx), so this wrapper just
+              needs to span that frame, not narrow it again.
+              viewport amount is tiny on purpose: a long case study (lots of
+              Figures) is taller than the viewport, so the default 25%
+              threshold used elsewhere on the site could never be satisfied
+              and the whole block would stay invisible forever. */}
+          <Reveal
+            delay={0.34}
+            viewport={{ once: true, amount: 0 }}
+            className="mt-16 pb-24"
+          >
             <MDXRemote source={project.content} components={mdxComponents} />
           </Reveal>
 

@@ -184,14 +184,9 @@ export const awards: Award[] = [
     id: "presidents-lister",
     title: "President's Lister",
     issuer: "Polytechnic University of the Philippines",
-    period: "2024 — 2026",
+    period: "2023 — 2026",
   },
-  {
-    id: "partyrock",
-    title: "Most Creative Award",
-    issuer: "AWS PartyRock Hackathon",
-    period: "November 2024",
-  },
+  
   {
     id: "dost",
     title: "DOST Scholarship Awardee",

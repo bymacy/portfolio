@@ -86,7 +86,7 @@ export default function ProjectPage({ params }: PageProps) {
             className="mt-12 grid gap-px overflow-hidden rounded-2xl bg-hairline sm:grid-cols-3"
           >
             {meta.map((item) => (
-              <div key={item.label} className="bg-blush px-5 py-6">
+              <div key={item.label} className="bg-paper px-5 py-6">
                 <p className="text-eyebrow uppercase text-plum-faint">{item.label}</p>
                 <p className="mt-2 text-sm text-plum">{item.value}</p>
               </div>
